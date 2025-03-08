@@ -10,9 +10,8 @@ class Console extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'cover_id', 'owner_id'];
+    protected $fillable = ['name', 'cover_id', 'console_owner_id'];
 
-    // Relationship to ConsoleOwner
     public function owner()
     {
         return $this->belongsTo(ConsoleOwner::class);

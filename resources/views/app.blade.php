@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="Game Vault - Organize and manage your physical games collection">
+    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
+
     <link rel="icon" href="/images/icons/favicon.ico" id="favicon">
     <title>@yield('title', 'Game Vault')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     <link rel="stylesheet" href="{{ url('css/custom.css') }}">
 </head>
 
@@ -16,11 +18,11 @@
     <header class="bg-gray-800 p-4 shadow-lg">
         <nav class="flex justify-between items-center container mx-auto">
             <div class="flex items-center gap-3">
-                <img src="{{ url('images/icons/favicon.png') }}" alt="Game Dashboard" class="w-16 h-16 rounded-full border-2 border-gray-700 p-1">
+                <img src="{{ url('images/icons/favicon.png') }}" alt="Game Dashboard" loading="lazy" class="w-16 h-16 rounded-full border-2 border-gray-700 p-1">
                 <div class="flex flex-col items-center px-2">
                     <h1 class="text-2xl font-bold tracking-widest flex items-center justify-center gap-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-light via-purple-light to-green-mid">
                         LEVELUP
-                        <img src="{{ url('images/icons/ps-controller.png') }}" alt="Game Dashboard" class="w-10 h-10">
+                        <img src="{{ url('images/icons/ps-controller.png') }}" alt="Game Dashboard" class="w-10 h-10" loading="lazy">
                         LIBRARY
                     </h1>
 
@@ -47,7 +49,7 @@
                     <ul class="space-y-2">
                         @foreach ($consolesByOwner as $console)
                             <li class="flex items-center gap-4 p-3 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-300">
-                                <img src="{{ url('images/icons/' . $console->slug . '.png') }}" alt="{{ $console->name }}" class="w-12 h-12 rounded-full border-2 border-gray-600 hover:border-gray-400 p-2">
+                                <img src="{{ url('images/icons/' . $console->slug . '.png') }}" alt="{{ $console->name }}" loading="lazy" class="w-12 h-12 rounded-full border-2 border-gray-600 hover:border-gray-400 p-2">
                                 <span class="text-white font-medium">{{ $console->name }}</span>
                             </li>
                         @endforeach
@@ -67,7 +69,7 @@
             <div class="relative z-10">
                 <div class="bg-gray-700 p-4 rounded-lg flex justify-between items-center">
                     <div class="flex items-center gap-4">
-                        <img src="/images/avatar/avatar1.png" alt="Profile" class="w-16 h-16 rounded-full">
+                        <img src="/images/avatar/avatar1.png" alt="Profile" class="w-16 h-16 rounded-full" loading="lazy">
                         <div>
                             <h2 class="text-2xl font-bold">Dark King</h2>
                             <p class="text-sm text-gray-300">Total Games: {{$games->count()}}</p>
@@ -75,10 +77,10 @@
                     </div>
                     <form class="flex gap-4">
                         <input type="text" placeholder="Search by Title..." class="bg-gray-800 text-white px-4 py-2 rounded-lg">
-                        <button class="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500">Search</button>
+                        <button class="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500" aria-hidden="true">Search</button>
                     </form>
 
-                    <button id="open-modal" class="px-4 py-2 bg-green-500 hover:bg-green-500 rounded-lg shadow-md flex items-center gap-2">
+                    <button id="open-modal" aria-hidden="true" class="px-4 py-2 bg-green-500 hover:bg-green-500 rounded-lg shadow-md flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7H5" cx="12" cy="12" r="10"></path>
                         </svg>
@@ -90,18 +92,16 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($games as $game)
                             <div class="bg-gray-700 rounded-lg shadow-lg overflow-hidden group relative">
-                                <!-- Game cover image -->
-                                <img src="{{ $game->cover_url }}" alt="{{ $game->title }}" class="w-full h-48 object-cover">
+                                <img src="{{ $game->cover_url }}" alt="{{ $game->title }}" loading="lazy" class="w-full h-48 object-cover rounded-t-lg">
 
-                                <!-- Edit and Remove Icons -->
-                                <div class="absolute top-2 right-2 flex space-x-2 z-10">
-                                    <button class="edit-game-btn border-2 border-blue-500 p-1 rounded-full text-blue-500 hover:text-blue-300 hover:border-blue-300" data-game-id="{{ $game->id }}">
+                                <div class="absolute top-3 right-3 flex space-x-3 z-10">
+                                    <button aria-hidden="true" class="edit-game-btn border-2 border-blue-500 p-2 rounded-full text-blue-500 hover:bg-blue-500 hover:text-white transition duration-200 ease-in-out" data-game-id="{{ $game->id }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232a3 3 0 114.242 4.242l-8.485 8.486H6v-4.242l8.485-8.485z" />
                                         </svg>
                                     </button>
 
-                                    <button class="remove-game-btn border-2 border-red-500 p-1 rounded-full text-red-500 hover:text-red-300 hover:border-red-300" data-game-id="{{ $game->id }}">
+                                    <button aria-hidden="true" class="remove-game-btn border-2 border-red-500 p-2 rounded-full text-red-500 hover:bg-red-500 hover:text-white transition duration-200 ease-in-out" data-game-id="{{ $game->id }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
@@ -109,12 +109,14 @@
                                 </div>
 
                                 <div class="p-4">
-                                    <h2 class="text-xl font-semibold truncate">{{ $game->title }}</h2>
+                                    <h2 class="text-xl font-semibold text-white truncate">{{ $game->title }}</h2>
 
-                                    <!-- Game platform -->
-                                    <img src="{{ url('images/icons/' . $game->console->slug . '.png') }}" alt="{{ $game->console->name }}" class="w-10 h-10 rounded-full border border-gray-600 p-1">
+                                    <!-- Console Icon -->
+                                    <div class="mt-2 flex items-center space-x-2">
+                                        <img src="{{ url('images/icons/' . $game->console->slug . '.png') }}" loading="lazy" alt="{{ $game->console->name }}" class="w-8 h-8 rounded-full border-2 border-gray-600 p-1">
+                                    </div>
 
-                                    <!-- Game genre -->
+                                    <!-- Genre -->
                                     <p class="text-sm text-gray-400 mt-2">
                                         <span class="text-gray-200">{{ $game->genre->name }}</span>
                                     </p>
@@ -123,7 +125,6 @@
                         @endforeach
                     </div>
                 </div>
-
 
             </div>
         </main>
@@ -140,7 +141,7 @@
 
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-2xl font-semibold">Add a New Game</h2>
-                    <button id="close-modal" class="text-gray-400 hover:text-white hover:border-gray-200 transition border-2 border-gray-600 rounded-full p-1 shadow-md">
+                    <button id="close-modal" aria-hidden="true" class="text-gray-400 hover:text-white hover:border-gray-200 transition border-2 border-gray-600 rounded-full p-1 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -184,7 +185,7 @@
                         </select>
                     </div>
 
-                    <button type="button" id="add-new-genre-btn" class="mt-6 text-sm border-2 rounded-full hover:border-blue-800 border-blue-600 text-blue-600 hover:text-blue-800 flex items-center justify-center">
+                    <button type="button" aria-hidden="true" id="add-new-genre-btn" class="mt-6 text-sm border-2 rounded-full hover:border-blue-800 border-blue-600 text-blue-600 hover:text-blue-800 flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7H5"></path>
                         </svg>
@@ -196,14 +197,14 @@
                 <div class="mb-4">
                     <label for="game-cover" class="block text-sm font-medium ">Game Cover</label>
                     <input type="file" id="game-cover" name="cover" accept="image/jpeg, image/png, image/jpg, image/gif, image/svg+xml" class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 hover:border-gray-600 transition duration-300 ease-in-out sm:text-sm" />
-                    <img id="game-cover-preview" src="" alt="Game Cover Preview" class="mt-2 hidden w-32 h-32 object-cover rounded-md border border-gray-300" />
+                    <img id="game-cover-preview" src="" alt="Game Cover Preview" loading="lazy" class="mt-2 hidden w-32 h-32 object-cover rounded-md border border-gray-300" />
                     @error('cover') <div class="text-red-500 text-sm mt-1">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="mb-4">
                     <label for="game-additional-cover" class="block text-sm font-medium ">Additional Covers</label>
                     <input type="file" id="game-additional-cover" name="additional-cover" class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 hover:border-gray-600 transition duration-300 ease-in-out sm:text-sm" />
-                    <img id="game-additional-cover-preview" src="" alt="Game Additional Cover Preview" class="mt-2 hidden w-32 h-32 object-cover rounded-md border border-gray-300" />
+                    <img id="game-additional-cover-preview" src="" loading="lazy" alt="Game Additional Cover Preview" class="mt-2 hidden w-32 h-32 object-cover rounded-md border border-gray-300" />
                     @error('additional-cover') <div class="text-red-500 text-sm mt-1">{{ $message }}</div> @enderror
                 </div>
 
@@ -219,8 +220,8 @@
                 </div>
 
                 <div class="flex justify-end gap-4 mt-6 border-t border-gray-600 pt-4">
-                    <button type="button" id="close-modal" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg">Save Game</button>
+                    <button type="button" aria-hidden="true" id="close-modal" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg">Cancel</button>
+                    <button type="submit" aria-hidden="true" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg">Save Game</button>
                 </div>
             </form>
         </div>
@@ -235,8 +236,8 @@
                 <input type="text" id="new-genre-name" name="name" class="mt-1 block w-full text-gray-800 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
 
                 <div class="mt-4 flex justify-end">
-                    <button type="button" id="close-modal-btn" class="text-gray-200 hover:text-gray-800">Cancel</button>
-                    <button type="submit" class="ml-3 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Add Genre</button>
+                    <button type="button" aria-hidden="true" id="close-modal-btn" class="text-gray-200 hover:text-gray-800">Cancel</button>
+                    <button type="submit" aria-hidden="true" class="ml-3 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Add Genre</button>
                 </div>
             </form>
         </div>
@@ -244,7 +245,5 @@
 </body>
 
 <script src="{{ url('js/app.js') }}" defer></script>
-
-
 
 </html>
